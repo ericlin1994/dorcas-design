@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>多迦室內空間設計 Dorcas Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0a0a0a;
+    --bg: #0f0f0f;
+    --bg-card: #161616;
+    --bg-elevated: #1e1e1e;
+    --gold: #c9a96e;
+    --gold-light: #dfc08a;
+    --gold-dim: rgba(201,169,110,0.15);
+    --text: #eae6de;
+    --text-muted: #7a756d;
+    --border: rgba(201,169,110,0.12);
+    --border-hover: rgba(201,169,110,0.35);
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--bg-deep);
+    color: var(--text);
+    line-height: 1.75;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection { background: var(--gold); color: var(--bg-deep); }
+
+  /* ===== LOADER ===== */
+  .loader {
+    position: fixed; inset: 0; z-index: 9999;
+    background: var(--bg-deep);
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.6s var(--ease), visibility 0.6s;
+  }
+  .loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  .loader-bar {
+    width: 120px; height: 1px;
+    background: var(--border);
+    position: relative; overflow: hidden;
+  }
+  .loader-bar::after {
+    content: '';
+    position: absolute; left: -40%; width: 40%; height: 100%;
+    background: var(--gold);
+    animation: loaderSlide 1s ease-in-out infinite;
+  }
+  @keyframes loaderSlide {
+    0% { left: -40%; }
+    100% { left: 100%; }
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 5vw;
+    background: rgba(10,10,10,0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.4s var(--ease);
+  }
+  nav.scrolled { padding: 0.8rem 5vw; background: rgba(10,10,10,0.95); }
+  .nav-logo {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1.15rem;
+    color: var(--gold);
+    letter-spacing: 0.25em;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .nav-logo small {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-weight: 300;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    margin-left: 0.6rem;
+  }
+  .nav-links {
+    display: flex; gap: 2.5rem; list-style: none;
+  }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.4s var(--ease);
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 40%, rgba(201,169,110,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 50% at 20% 80%, rgba(201,169,110,0.04) 0%, transparent 60%),
+      linear-gradient(180deg, var(--bg-deep) 0%, #111 50%, var(--bg-deep) 100%);
+  }
+  .hero-grid-lines {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,169,110,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,169,110,0.03) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent);
+    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent);
+  }
+  .hero-content {
+    text-align: center; z-index: 1; padding: 2rem;
+    max-width: 800px;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.8rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2.5rem;
+  }
+  .hero-tag::before, .hero-tag::after {
+    content: '';
+    width: 40px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold));
+  }
+  .hero-tag::after {
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+  .hero h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.05em;
+  }
+  .hero h1 .en {
+    display: block;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: clamp(0.9rem, 2vw, 1.4rem);
+    font-weight: 300;
+    letter-spacing: 0.5em;
+    color: var(--text-muted);
+    margin-top: 1rem;
+  }
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    max-width: 520px;
+    margin: 2rem auto 2.5rem;
+    line-height: 2.1;
+  }
+  .hero-btn {
+    display: inline-flex; align-items: center; gap: 0.8rem;
+    padding: 1rem 3rem;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.2em;
+    transition: all 0.4s var(--ease);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-btn::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--ease);
+    z-index: -1;
+  }
+  .hero-btn:hover { color: var(--bg-deep); }
+  .hero-btn:hover::before { transform: scaleX(1); }
+  .hero-btn svg {
+    width: 16px; height: 16px;
+    transition: transform 0.3s var(--ease);
+  }
+  .hero-btn:hover svg { transform: translateX(4px); }
+
+  .hero-scroll {
+    position: absolute; bottom: 3rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+    color: var(--text-muted);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .hero-scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+    50% { opacity: 1; transform: scaleY(1); }
+  }
+
+  /* ===== SECTION COMMON ===== */
+  section { padding: 10rem 5vw; }
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  .section-tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-tag::before {
+    content: '';
+    width: 30px; height: 1px;
+    background: var(--gold);
+  }
+  .section-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    font-weight: 600;
+    line-height: 1.35;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.02em;
+  }
+  .section-desc {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    max-width: 560px;
+    line-height: 2;
+  }
+
+  /* ===== ABOUT ===== */
+  .about { background: var(--bg); }
+  .about-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+  .about-visual {
+    position: relative;
+  }
+  .about-img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: linear-gradient(145deg, #1a1815, #131110, #1a1815);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .about-img::before {
+    content: '';
+    position: absolute; inset: 16px;
+    border: 1px solid rgba(201,169,110,0.1);
+  }
+  .about-img::after {
+    content: '';
+    position: absolute;
+    top: 20%; left: 15%; width: 70%; height: 60%;
+    background: linear-gradient(135deg, rgba(201,169,110,0.05), transparent 60%);
+  }
+  .about-img-label {
+    position: absolute; bottom: 2rem; left: 2rem; right: 2rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+  .about-accent {
+    position: absolute; top: -2rem; right: -2rem;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 6rem;
+    color: var(--gold);
+    opacity: 0.04;
+    line-height: 1;
+  }
+  .about-text .section-desc { margin-bottom: 2.5rem; }
+  .about-features {
+    display: flex; flex-direction: column; gap: 1.2rem;
+    margin-bottom: 3rem;
+  }
+  .about-feature {
+    display: flex; align-items: flex-start; gap: 1rem;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+  .about-feature-icon {
+    width: 6px; height: 6px;
+    background: var(--gold);
+    flex-shrink: 0;
+    margin-top: 0.6rem;
+  }
+  .about-stats {
+    display: flex; gap: 3.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .stat-num {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 2.2rem;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .stat-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ===== SERVICES ===== */
+  .services-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 4rem;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+  .service-card {
+    padding: 2.8rem 2.2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    transition: all 0.5s var(--ease);
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s var(--ease);
+  }
+  .service-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-num {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 2.5rem;
+    color: var(--gold);
+    opacity: 0.12;
+    margin-bottom: 1.5rem;
+    line-height: 1;
+  }
+  .service-card h3 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+    font-weight: 600;
+  }
+  .service-card p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.9;
+  }
+  .service-tag {
+    display: inline-block;
+    margin-top: 1.5rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    border: 1px solid var(--gold-dim);
+    padding: 0.3rem 0.8rem;
+  }
+
+  /* ===== WORKS ===== */
+  .works { background: var(--bg); }
+  .works-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 4rem;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+  .works-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.5rem;
+  }
+  .work-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    transition: border-color 0.4s var(--ease);
+  }
+  .work-card:hover { border-color: var(--border-hover); }
+  .work-card:nth-child(1) { grid-column: span 7; }
+  .work-card:nth-child(2) { grid-column: span 5; }
+  .work-card:nth-child(3) { grid-column: span 5; }
+  .work-card:nth-child(4) { grid-column: span 7; }
+
+  .work-img-wrap {
+    width: 100%; aspect-ratio: 16/10;
+    overflow: hidden;
+    position: relative;
+    border-radius: 8px;
+  }
+  .work-img-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.7s var(--ease);
+  }
+  .work-card:hover .work-img-wrap img {
+    transform: scale(1.05);
+  }
+  .work-card:hover .work-placeholder { transform: scale(1.05); }
+  .work-placeholder-icon {
+    font-size: 3rem;
+    opacity: 0.06;
+    color: var(--gold);
+  }
+  .work-info {
+    padding: 1.8rem;
+    background: var(--bg-card);
+    border-top: 1px solid var(--border);
+  }
+  .work-info h4 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1.05rem;
+    margin-bottom: 0.3rem;
+  }
+  .work-info span {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+  }
+  .work-tags {
+    display: flex; gap: 0.5rem;
+    margin-top: 0.8rem;
+  }
+  .work-tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 0.2rem 0.6rem;
+  }
+
+  /* ===== PHILOSOPHY ===== */
+  .philosophy {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .philosophy mark {
+    background: var(--gold-dim);
+    color: var(--gold-light);
+    padding: 0.1rem 0.4rem;
+  }
+  .philosophy blockquote {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+    line-height: 2.2;
+    color: var(--text);
+    margin: 2.5rem 0;
+    position: relative;
+    font-weight: 400;
+  }
+  .philosophy mark {
+    background: var(--gold-dim);
+    color: var(--gold-light);
+    padding: 0.1rem 0.4rem;
+  }
+  .philosophy blockquote::before {
+    content: '';
+    position: absolute;
+    top: -2rem; left: 50%;
+    transform: translateX(-50%);
+    width: 40px; height: 1px;
+    background: var(--gold);
+  }
+  .philosophy cite {
+    font-style: normal;
+    font-size: 0.75rem;
+    color: var(--gold);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+
+  /* ===== CONTACT ===== */
+  .contact { background: var(--bg); }
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+  }
+  .contact-info { display: flex; flex-direction: column; gap: 2.5rem; }
+  .contact-item h4 {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+  .contact-item p, .contact-item a {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: color 0.3s;
+    line-height: 1.8;
+  }
+  .contact-item a:hover { color: var(--gold); }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1.5rem; }
+  .form-row { display: flex; gap: 1.5rem; }
+  .form-row .form-group { flex: 1; }
+  .form-group label {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.6rem;
+  }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    padding: 0.9rem 1.1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 0.3s;
+    -webkit-appearance: none;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: var(--gold);
+  }
+  .form-group textarea { resize: vertical; min-height: 130px; }
+  .form-group select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a756d' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+  }
+  .form-group select option { background: var(--bg-card); color: var(--text); }
+  .submit-btn {
+    padding: 1.1rem 3.5rem;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.4s var(--ease);
+    align-self: flex-start;
+    position: relative;
+    overflow: hidden;
+  }
+  .submit-btn::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--ease);
+    z-index: -1;
+  }
+  .submit-btn:hover { color: var(--bg-deep); }
+  .submit-btn:hover::before { transform: scaleX(1); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    padding: 4rem 5vw 3rem;
+    border-top: 1px solid var(--border);
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+  .footer-left {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+  .footer-left strong {
+    color: var(--gold);
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 600;
+  }
+  .footer-right {
+    display: flex; gap: 1.5rem;
+  }
+  .footer-right a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    transition: color 0.3s;
+  }
+  .footer-right a:hover { color: var(--gold); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .about-inner, .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .works-grid { grid-template-columns: 1fr 1fr; }
+    .work-card:nth-child(1),
+    .work-card:nth-child(2),
+    .work-card:nth-child(3),
+    .work-card:nth-child(4) { grid-column: span 1; }
+    .form-row { flex-direction: column; }
+    .about-stats { gap: 2rem; }
+    section { padding: 6rem 6vw; }
+  }
+  @media (max-width: 600px) {
+    .works-grid { grid-template-columns: 1fr; }
+    .about-stats { flex-wrap: wrap; }
+  }
+
+  /* ===== ANIMATIONS ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+  <div class="loader-bar"></div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <img src="images/work_06.jpg" alt="DORCAS" style="height:36px;width:auto;display:block;object-fit:contain;border-radius:4px;">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">關於</a></li>
+    <li><a href="#services">服務</a></li>
+    <li><a href="#works">作品</a></li>
+    <li><a href="#philosophy">理念</a></li>
+    <li><a href="#contact">聯繫</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Interior Design Studio</div>
+    <h1>
+      多迦室內空間設計
+      <span class="en">DORCAS INTERIOR DESIGN</span>
+    </h1>
+    <p class="hero-desc">
+      以細膩的工藝精神與獨到的美學視野<br>
+      為每個空間注入靈魂與温度
+    </p>
+    <a href="#works" class="hero-btn">
+      探索作品
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M3 8h10M9 4l4 4-4 4"/>
+      </svg>
+    </a>
+  </div>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    SCROLL
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-visual reveal">
+        <div class="about-img">
+          <img src="images/studio_photo.jpg" alt="Studio Photo" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <div class="about-accent">多</div>
+      </div>
+      <div class="about-text">
+        <div class="section-tag reveal">關於我們</div>
+        <h2 class="section-title reveal reveal-delay-1">設計不只是美學<br>更是生活的解讀</h2>
+        <p class="section-desc reveal reveal-delay-2">
+          多迦室內空間設計（Dorcas Design）深耕台灣室內設計領域，以「溫暖與冷調的完美融合」為核心理念，為每一個空間量身打造獨特的設計語彙。
+        </p>
+        <p class="section-desc reveal reveal-delay-2">
+          從概念發想、平面規劃、材質選配到施工監工，我們提供一站式的全方位設計服務，讓您在每個階段都能感受到專業與用心。
+        </p>
+        <div class="about-features reveal reveal-delay-3">
+          <div class="about-feature">
+            <div class="about-feature-icon"></div>
+            <span>全室設計規劃 — 從空間配置到軟裝搭配</span>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature-icon"></div>
+            <span>舊屋翻新改造 — 賦予老屋嶄新生機</span>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature-icon"></div>
+            <span>商業空間設計 — 提升品牌識別與商業價值</span>
+          </div>
+        </div>
+        <div class="about-stats reveal reveal-delay-4">
+          <div>
+            <div class="stat-num">100+</div>
+            <div class="stat-label">完工作品</div>
+          </div>
+          <div>
+            <div class="stat-num">8</div>
+            <div class="stat-label">年設計經驗</div>
+          </div>
+          <div>
+            <div class="stat-num">15+</div>
+            <div class="stat-label">設計獎項</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="services-header">
+      <div>
+        <div class="section-tag reveal">設計服務</div>
+        <h2 class="section-title reveal reveal-delay-1">全方位設計服務</h2>
+        <p class="section-desc reveal reveal-delay-2">從概念到完工，每個環節都經過精心設計與嚴格把關</p>
+      </div>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-num">01</div>
+        <h3>室內設計規劃</h3>
+        <p>從舊屋翻新到新成屋規劃，依據您的生活方式與喜好，量身打造最合適的空間佈局與視覺風格。</p>
+        <span class="service-tag">住宅設計</span>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-num">02</div>
+        <h3>空間動線設計</h3>
+        <p>以人體工學為基礎，優化室內動線與採光通風，讓空間不僅好看，更要好用、好住。</p>
+        <span class="service-tag">機能優化</span>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-num">03</div>
+        <h3>材質與傢俱選配</h3>
+        <p>嚴選天然石材、木皮、金屬與布藝材質，搭配精選家具與燈飾，呈現層次豐富的空間質感。</p>
+        <span class="service-tag">軟裝搭配</span>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-num">04</div>
+        <h3>商業空間設計</h3>
+        <p>餐廳、咖啡廳、辦公室、展示空間——以設計提升品牌識別度，吸引目光並創造商業價值。</p>
+        <span class="service-tag">商業空間</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKS -->
+<section class="works" id="works">
+  <div class="container">
+    <div class="works-header">
+      <div>
+        <div class="section-tag reveal">作品展示</div>
+        <h2 class="section-title reveal reveal-delay-1">精選案例</h2>
+        <p class="section-desc reveal reveal-delay-2">每個作品都是一段獨特的空間故事</p>
+      </div>
+    </div>
+    <div class="works-grid">
+      <div class="work-card reveal">
+        <div class="work-img-wrap">
+          <img src="images/work_01.jpg" alt="現代極簡宅" loading="lazy">
+        </div>
+        <div class="work-info">
+          <h4>現代極簡宅</h4>
+          <span>全室設計 · 2024</span>
+          <div class="work-tags">
+            <span class="work-tag">現代風格</span>
+            <span class="work-tag">極簡主義</span>
+          </div>
+        </div>
+      </div>
+      <div class="work-card reveal reveal-delay-1">
+        <div class="work-img-wrap">
+          <img src="images/work_02.jpg" alt="日式溫宅" loading="lazy">
+        </div>
+        <div class="work-info">
+          <h4>日式溫宅</h4>
+          <span>舊屋翻新 · 2024</span>
+          <div class="work-tags">
+            <span class="work-tag">日式風格</span>
+            <span class="work-tag">溫和質感</span>
+          </div>
+        </div>
+      </div>
+      <div class="work-card reveal">
+        <div class="work-img-wrap">
+          <img src="images/work_03.jpg" alt="概念咖啡廳" loading="lazy">
+        </div>
+        <div class="work-info">
+          <h4>概念咖啡廳</h4>
+          <span>商業空間 · 2024</span>
+          <div class="work-tags">
+            <span class="work-tag">商業空間</span>
+            <span class="work-tag">工業風</span>
+          </div>
+        </div>
+      </div>
+      <div class="work-card reveal reveal-delay-1">
+        <div class="work-img-wrap">
+          <img src="https://scontent.ftpe7-3.fna.fbcdn.net/v/t39.30808-6/481256345_667356538978340_1984593649834423160_n.jpg?stp=dst-jpg_tt6&cstp=mx1920x1080&ctp=s1920x1080&_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_ohc=fkVRyf6H79AQ7kNvwEXPukZ&_nc_oc=Adouqpmyde28qzftbIvH6XRrHLvfn-oNMWxOTGUrR3qW5FMhFeIm3NNWmyDkIQl4FG4&_nc_zt=23&_nc_ht=scontent.ftpe7-3.fna&_nc_gid=Xco6PqjXcs_N3acHq5CM_w&_nc_ss=7b2a8&oh=00_AQITyLUyrLyHg26ZiPD3COcm2WfUPdgi4-EgLX-CMPcTGA&oe=6AA44515" alt="作品四" loading="lazy">
+        </div>
+        <div class="work-info">
+          <h4>度假別墅</h4>
+          <span>全室設計 · 2023</span>
+          <div class="work-tags">
+            <span class="work-tag">海景住宅</span>
+            <span class="work-tag">度假風格</span>
+          </div>
+        </div>
+      </div>
+      <div class="work-card reveal">
+        <div class="work-img-wrap">
+          <img src="https://scontent.ftpe7-2.fna.fbcdn.net/v/t39.30808-6/481298189_667356945644966_1047411773403557590_n.jpg?stp=dst-jpg_tt6&cstp=mx1424x1920&ctp=s1424x1920&_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_ohc=uYkoh3PSDOYQ7kNvwGRdrPk&_nc_oc=AdpPTQMl7o4bcqgMhTcUEFKD2NCRuAKHAVMW6S5Z_4PoOvTfyf9r0yDFRaO0h7qkXeg&_nc_zt=23&_nc_ht=scontent.ftpe7-2.fna&_nc_gid=Xco6PqjXcs_N3acHq5CM_w&_nc_ss=7b2a8&oh=00_AQI7JEDf9tno-jKMvLD-E30bp_uWEKm4xNHff76Lsugdjg&oe=6AA46B03" alt="作品五" loading="lazy">
+        </div>
+        <div class="work-info">
+          <h4>質感住宅</h4>
+          <span>全室設計 · 2024</span>
+          <div class="work-tags">
+            <span class="work-tag">現代風格</span>
+            <span class="work-tag">溫暖質感</span>
+          </div>
+        </div>
+      </div>
+      <div class="work-card reveal reveal-delay-1">
+        <div class="work-img-wrap">
+          <img src="https://scontent.ftpe7-4.fna.fbcdn.net/v/t39.30808-6/354064695_293440363036628_4288801400529623993_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x2048&ctp=s2048x2048&_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=1zVp5lIbxyAQ7kNvwGLdg9b&_nc_oc=AdoTc0YwWsdBN1b6wjfNeLvfCVctbxCp3BaJBofixU3tYeAlqJGzRp_PXe2OWHYqaVY&_nc_zt=23&_nc_ht=scontent.ftpe7-4.fna&_nc_gid=Xco6PqjXcs_N3acHq5CM_w&_nc_ss=7b2a8&oh=00_AQIGUuH9K6rZ85mSoCm2k8-lfOELI0yaRCHuCfcA-MzwcA&oe=6AA442C6" alt="作品六" loading="lazy">
+        </div>
+        <div class="work-info">
+          <h4>暖色居宅</h4>
+          <span>舊屋翻新 · 2023</span>
+          <div class="work-tags">
+            <span class="work-tag">日式風格</span>
+            <span class="work-tag">自然素材</span>
+          </div>
+        </div>
+      </div>
+      <div class="work-card reveal">
+        <div class="work-img-wrap">
+          <img src="https://scontent.ftpe7-4.fna.fbcdn.net/v/t39.30808-6/485768388_1879691116137826_6046452662307379120_n.jpg?stp=dst-jpg_tt6&cstp=mx960x540&ctp=s960x540&_nc_cat=105&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=M_VBkDiGOSsQ7kNvwFsnbkA&_nc_oc=AdqBHKjDE7U6MX-3KyxTqusVLuv3mAvBMRnWWSWykt76OYY603i9lJYkKv9dFxh4cDY&_nc_zt=23&_nc_ht=scontent.ftpe7-4.fna&_nc_gid=Xco6PqjXcs_N3acHq5CM_w&_nc_ss=7b2a8&oh=00_AQJ31hPE79EEmJTnU2EyfRZZ7IpAzvbQGbUAJdId88tsog&oe=6AA4478A" alt="作品七" loading="lazy">
+        </div>
+        <div class="work-info">
+          <h4>都會宅邸</h4>
+          <span>全室設計 · 2023</span>
+          <div class="work-tags">
+            <span class="work-tag">都會風格</span>
+            <span class="work-tag">奢華質感</span>
+          </div>
+        </div>
+      </div>
+      <div class="work-card reveal reveal-delay-1">
+        <div class="work-img-wrap">
+          <img src="https://scontent.ftpe7-2.fna.fbcdn.net/v/t39.30808-6/485801140_1879691072804497_5581093466890195789_n.jpg?stp=dst-jpg_tt6&cstp=mx960x506&ctp=s960x506&_nc_cat=104&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=p5SvoJB5yDsQ7kNvwGSFJIX&_nc_oc=AdorZQOPs2cRGRJY1EICO_Z8ezlw04NQqKgLhGNuoSIchC5-l0nrGtB_6JzaYtLc26g&_nc_zt=23&_nc_ht=scontent.ftpe7-2.fna&_nc_gid=JGcQXboJpT7KJh7XnJ3FrA&_nc_ss=7b2a8&oh=00_AQL6uWG7KbMmP76fatS5SBluUJGiKpeIfUb8UHXQppmbww&oe=6AA44FE3" alt="作品八" loading="lazy">
+        </div>
+        <div class="work-info">
+          <h4>溫馨雅宅</h4>
+          <span>舊屋翻新 · 2023</span>
+          <div class="work-tags">
+            <span class="work-tag">現代風格</span>
+            <span class="work-tag">溫馨設計</span>
+          </div>
+        </div>
+      </div>
+      <div class="work-card reveal">
+        <div class="work-img-wrap">
+          <img src="https://scontent.ftpe7-1.fna.fbcdn.net/v/t39.30808-6/485611456_1879691092804495_299624149257619838_n.jpg?stp=dst-jpg_tt6&cstp=mx960x506&ctp=s960x506&_nc_cat=100&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=Bct1M1LtxHgQ7kNvwF_379s&_nc_oc=AdrqtH092thvWGqxDyvzPKUTDe5KZ7xCS1Rb-s6T09YE0OFCSgEnecomevYOnuvmf9k&_nc_zt=23&_nc_ht=scontent.ftpe7-1.fna&_nc_gid=JGcQXboJpT7KJh7XnJ3FrA&_nc_ss=7b2a8&oh=00_AQI4POTc8vJayY4rXqI1JJESZps0UYJc1HYuR-qGa9xOow&oe=6AA43AFB" alt="作品九" loading="lazy">
+        </div>
+        <div class="work-info">
+          <h4>時尚雅宅</h4>
+          <span>全室設計 · 2023</span>
+          <div class="work-tags">
+            <span class="work-tag">時尚風格</span>
+            <span class="work-tag">現代質感</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy" id="philosophy">
+  <div class="section-tag reveal" style="justify-content:center;">設計理念</div>
+  <div class="reveal reveal-delay-1">
+    <blockquote>
+      <mark>溫暖</mark>與<mark>冷調</mark>的完美融合。<br>
+      讓每一個空間，都成為生活的藝術品。
+    </blockquote>
+    <cite>— DORCAS DESIGN</cite>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="section-tag reveal">聯繫我們</div>
+    <h2 class="section-title reveal reveal-delay-1">開始您的設計之旅</h2>
+    <p class="section-desc reveal reveal-delay-2" style="margin-bottom: 3rem;">
+      無論您有任何設計需求，歡迎隨時與我們聯繫
+    </p>
+    <div class="contact-inner">
+      <div class="contact-info reveal reveal-delay-2">
+        <div class="contact-item">
+          <h4>Email</h4>
+          <a href="mailto:mimina821225@gmail.com">mimina821225@gmail.com</a>
+        </div>
+        <div class="contact-item">
+          <h4>Facebook</h4>
+          <a href="https://www.facebook.com/dorcasssssss/" target="_blank">多迦室內空間設計</a>
+        </div>
+        <div class="contact-item">
+          <h4>服務地區</h4>
+          <p>台北、新北、基隆及週邊地區</p>
+        </div>
+        <div class="contact-item">
+          <h4>營業時間</h4>
+          <p>週一至週五 10:00 – 19:00<br>週六 10:00 – 17:00（需預約）</p>
+        </div>
+      </div>
+      <form class="contact-form reveal reveal-delay-3" onsubmit="event.preventDefault(); alert('感謝您的諮詢！我們將盡快與您聯繫。');">
+        <div class="form-row">
+          <div class="form-group">
+            <label>姓名</label>
+            <input type="text" placeholder="您的姓名" required>
+          </div>
+          <div class="form-group">
+            <label>電話</label>
+            <input type="tel" placeholder="聯絡電話">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="您的 Email" required>
+        </div>
+        <div class="form-group">
+          <label>設計類型</label>
+          <select>
+            <option value="">請選擇</option>
+            <option>住宅設計</option>
+            <option>商業空間</option>
+            <option>舊屋翻新</option>
+            <option>諮詢服務</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>需求描述</label>
+          <textarea placeholder="請簡述您的需求（坪數、風格、預算等）"></textarea>
+        </div>
+        <button type="submit" class="submit-btn">送出諮詢</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      <strong>DORCAS</strong> © 2024 多迦室內空間設計. All rights reserved.
+    </div>
+    <div class="footer-right">
+      <a href="#about">關於</a>
+      <a href="#services">服務</a>
+      <a href="#works">作品</a>
+      <a href="#contact">聯繫</a>
+      <a href="https://www.facebook.com/dorcasssssss/" target="_blank">Facebook</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Loader
+  window.addEventListener('load', () => {
+    setTimeout(() => document.getElementById('loader').classList.add('hidden'), 600);
+  });
+
+  // Nav scroll effect
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
